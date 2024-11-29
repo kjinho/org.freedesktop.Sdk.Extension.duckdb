@@ -1,0 +1,31 @@
+id: org.freedesktop.Sdk.Extension.duckdb
+branch: '23.08'
+runtime: org.freedesktop.Sdk
+build-extension: true
+sdk: org.freedesktop.Sdk
+runtime-version: '23.08'
+separate-locales: false
+appstream-compose: false
+build-options:
+  prefix: /app/extension_directory/duckdb
+  prepend-ld-library-path: /app/extension_directory/duckdb/lib
+  prepend-path: /app/extension_directory/duckdb/bin
+modules:
+  - name: libduckdb
+    buildsystem: simple
+    sources:
+      - type: archive
+        url: https://github.com/duckdb/duckdb/releases/download/v0.10.0/libduckdb-linux-amd64.zip
+        sha256: 5e6a578bc985ef8fc5cbf1a9561fafce3900b892823dbca58a158d24a49fcd28
+    build-commands:
+      - install -d ${FLATPAK_DEST}/lib
+      - install libduckdb.so ${FLATPAK_DEST}/lib
+  - name: duckdb-cli
+    buildsystem: simple
+    sources:
+      - type: archive
+        url: https://github.com/duckdb/duckdb/releases/download/v0.10.0/duckdb_cli-linux-amd64.zip
+        sha256: 66859c2e8aad5cfd13e12704f7b372bffbcfd76c7154b8f1442ec1291fb7f288
+    build-commands:
+      - install -d ${FLATPAK_DEST}/bin
+      - install duckdb ${FLATPAK_DEST}/bin
